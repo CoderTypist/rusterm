@@ -28,7 +28,7 @@ build_rust_prog() {
     # get user input
     while true; do
 
-        if [ 1 == "$first" ]; then
+        if [ 1 == "$MAIN" ] && [ 1 == "$first" ]; then
             read -p ">>>     " line
             line="    $line"
             first=0
