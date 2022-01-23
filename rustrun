@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ 1 != $# ]; then
+    echo "Please specify the file to run"
+    exit 1
+fi
+
+fname="$1"
+# compile the program
+rustc "$fname"
+# name of the executable (assumes file ends with ".rs")
+exe_name="${fname:0:${#fname}-3}"
+# run the program
+./"$exe_name"
+# remove the executable
+rm "$exe_name"
