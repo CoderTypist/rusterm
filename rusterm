@@ -1,0 +1,74 @@
+#!/bin/bash
+
+FOUT="temp_rusterm.rs"
+MAIN=1
+
+main() {
+
+    trap "exit_via_signal" EXIT
+    rustc -V
+
+    touch "$FOUT"
+
+    while true; do
+        echo -n "" > "$FOUT"
+        build_rust_prog
+    done
+}
+
+build_rust_prog() {
+
+    # start the main function
+    if [ 1 == "$MAIN" ]; then
+        echo -e ">>> fn main() {"
+        echo -e " fn main() {" >> "$FOUT"
+    fi
+
+    first=1
+    # get user input
+    while true; do
+
+        if [ 1 == "$first" ]; then
+            read -p ">>>     " line
+            line="    $line"
+            first=0
+        else
+            read -p ">>> " line
+        fi
+
+        # run the program
+        if [[ -z "$line" ]]; then
+            ./rustrun "$FOUT"
+            return
+        # exit the script
+        elif [[ "!exit" == "$line" ]]; then
+            exit_via_console
+        # append code to the program
+        else
+            echo "$line" >> "$FOUT"
+        fi
+    done
+}
+
+# if exiting via the "!exit" command
+exit_via_console() {
+    exit_actions
+    exit
+}
+
+# if exiting via CTRL+'c'
+exit_via_signal() {
+    exit_actions
+}
+
+exit_actions() {
+    remove_temp_file
+}
+
+remove_temp_file() {
+    if [ -f "$FOUT" ]; then
+        rm "$FOUT"
+    fi
+}
+
+main
