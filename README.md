@@ -18,6 +18,12 @@ x: 5
 ...
 ```
 
+## Installation
+Copy and run this shell command. It clones the repo, moves __rusterm__ and __rustrun__ to __/usr/local/bin__ (which lies on __$PATH__), and removes the cloned repo.
+```
+git clone https://github.com/CoderTypist/rusterm.git;sudo mv {./rusterm/rusterm,./rusterm/rustrun} /usr/local/bin;rm -rf ./rusterm
+```
+
 ## Motivation
 I like using the Python interactive shell when I want to quickly test something out. I wanted a way to do that for Rust.
 
