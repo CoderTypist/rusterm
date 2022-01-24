@@ -6,10 +6,10 @@ if [ 1 != $# ]; then
 fi
 
 fname="$1"
-# compile the program
-rustc "$fname"
 # name of the executable (assumes file ends with ".rs")
 exe_name="${fname:0:${#fname}-3}"
+# compile program
+rustc "$fname" -o "$exe_name"
 # run the program
 "$exe_name"
 # remove the executable
