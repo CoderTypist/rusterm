@@ -1,19 +1,25 @@
 #!/bin/bash
 
-FOUT="temp_rusterm.rs"
+FOUT=""
 MAIN=1
 
 main() {
 
     trap "exit_via_signal" EXIT
+
+    # rust version info
     rustc -V
 
-    touch "$FOUT"
-
+    # each iteration runs a new rust program
     while true; do
+        set_fout
         echo -n "" > "$FOUT"
         build_rust_prog
     done
+}
+
+set_fout() {
+    FOUT="$(mktemp tmpXXXXXXXXXX.rs)"
 }
 
 build_rust_prog() {
@@ -24,27 +30,37 @@ build_rust_prog() {
         echo -e " fn main() {" >> "$FOUT"
     fi
 
+    # detect first iteration
     first=1
+
     # get user input
     while true; do
 
+        # first line only - add leading whitespace
         if [ 1 == "$MAIN" ] && [ 1 == "$first" ]; then
-            read -p ">>>     " line
-            line="    $line"
-            first=0
+            read -p "...     " line
         else
-            read -p ">>> " line
+            read -p "... " line
         fi
-
+        echo "line: X$line , len: ${#line}"
         # run the program
         if [[ -z "$line" ]]; then
             ./rustrun "$FOUT"
+            return
+        # start over
+        elif [[ "!new" == "$line" ]]; then
+            remove_temp_file
             return
         # exit the script
         elif [[ "!exit" == "$line" ]]; then
             exit_via_console
         # append code to the program
         else
+            # first line only - add padding
+            if [ 1 == "$MAIN" ] && [ 1 == "$first" ]; then
+                line="    $line"
+                first=0
+            fi
             echo "$line" >> "$FOUT"
         fi
     done
@@ -67,6 +83,7 @@ exit_actions() {
 
 remove_temp_file() {
     if [ -f "$FOUT" ]; then
+        echo "REMOVING: $FOUT"
         rm "$FOUT"
     fi
 }
