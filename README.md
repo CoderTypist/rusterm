@@ -19,9 +19,9 @@ x: 5
 ```
 
 ## Installation
-Copy and run this shell command. It clones the repo, moves __rusterm__ and __rustrun__ to __/usr/local/bin__ (which lies on __$PATH__), and removes the cloned repo.
+Copy and run this shell command. It clones the repo, makes __rusterm__ and __rustrun__ executable by everybody, moves __rusterm__ and __rustrun__ to __/usr/local/bin__ (which lies on __$PATH__), and removes the cloned repo.
 ```
-git clone https://github.com/CoderTypist/rusterm.git;sudo mv {./rusterm/rusterm,./rusterm/rustrun} /usr/local/bin;rm -rf ./rusterm
+ggit clone https://github.com/CoderTypist/rusterm.git;chmod u+x {./rusterm/rusterm,./rusterm/rustrun};sudo mv {./rusterm/rusterm,./rusterm/rustrun} /usr/local/bin;rm -rf ./rusterm
 ```
 
 ## Motivation
