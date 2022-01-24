@@ -2,6 +2,7 @@
 
 FOUT=""
 MAIN=1
+TMP="/tmp"
 
 main() {
 
@@ -19,7 +20,7 @@ main() {
 }
 
 set_fout() {
-    FOUT="$(mktemp tmpXXXXXXXXXX.rs)"
+    FOUT="$(mktemp $TMP/tmpXXXXXXXXXX.rs)"
 }
 
 build_rust_prog() {
@@ -45,8 +46,11 @@ build_rust_prog() {
 
         # run the program
         if [[ -z "$line" ]]; then
-            ./rustrun "$FOUT"
+            cd "$TMP"
+            rustrun "$FOUT"
+            remove_temp_file
             return
+            cd "$OLD_PWD"
         # start over
         elif [[ "!new" == "$line" ]]; then
             remove_temp_file
