@@ -83,7 +83,6 @@ exit_actions() {
 
 remove_temp_file() {
     if [ -f "$FOUT" ]; then
-        echo "REMOVING: $FOUT"
         rm "$FOUT"
     fi
 }
