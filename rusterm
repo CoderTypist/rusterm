@@ -42,7 +42,7 @@ build_rust_prog() {
         else
             read -p "... " line
         fi
-        echo "line: X$line , len: ${#line}"
+
         # run the program
         if [[ -z "$line" ]]; then
             ./rustrun "$FOUT"
