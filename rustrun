@@ -11,6 +11,6 @@ rustc "$fname"
 # name of the executable (assumes file ends with ".rs")
 exe_name="${fname:0:${#fname}-3}"
 # run the program
-./"$exe_name"
+"$exe_name"
 # remove the executable
 rm "$exe_name"
